@@ -3,12 +3,20 @@ module.exports = function() {
 	
 	var config = {
 		client: client,
+		release: 'release/',
 		serverPort: 8080,
-		files: ['app/**/*.css', 'app/**/*.html', 'app/**/*.js'],
+		files: [
+			client + '**/*.css',
+			client + '**/*.html',
+			client + '**/*.js'],
 		index: client + 'index.html',
 		js: [
 			client + '**/*.module.js',
 			client + '**/*.js'
+		],
+		ts: [
+			'typings/**/*.d.ts',
+			client + '**/*.module.ts',
 		],
 		bower: {
 			json: require('./bower.json'),
