@@ -1,0 +1,31 @@
+{
+  "name": "shoping-list",
+  "version": "1.0.0",
+  "description": "Shopping list sample app for ng-gulp training",
+  "main": "index.html",
+  "scripts": {
+    "test": "karma start test/karma.conf.js",
+    "postinstall": "bower install",
+    "prestart": "npm install",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/r2-r/gulp-ng.git"
+  },
+  "keywords": [],
+  "author": "Artur Grzegorzewicz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/r2-r/gulp-ng/issues"
+  },
+  "homepage": "https://github.com/r2-r/gulp-ng#readme",
+  "devDependencies": {
+    "bower": "^1.5.3",
+    "gulp": "^3.9.0",
+    "gulp-live-server": "0.0.28",
+    "gulp-load-plugins": "^1.0.0-rc.1",
+    "karma": "^0.13.10",
+    "live-server": "^0.8.1"
+  }
+}
