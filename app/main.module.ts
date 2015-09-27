@@ -9,7 +9,7 @@ module app {
 		.module('app', [])
 		.directive('main', main);
 
-	function main(): ng.IDirective {
+	function main($log: ng.ILogService): ng.IDirective {
 		var directive = <ng.IDirective> {
 			restrict: 'E',
 			templateUrl: 'templates/mainPage.tpl.html',
@@ -18,6 +18,7 @@ module app {
 		}
 
 		function link(scope: IMainScope, element: ng.IAugmentedJQuery): void {
+			$log.debug('link called');
 			scope.title = 'Shopping List';
 		}
 

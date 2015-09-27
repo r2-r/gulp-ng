@@ -4,7 +4,7 @@ var app;
     angular
         .module('app', [])
         .directive('main', main);
-    function main() {
+    function main($log) {
         var directive = {
             restrict: 'E',
             templateUrl: 'templates/mainPage.tpl.html',
@@ -12,6 +12,7 @@ var app;
             scope: {}
         };
         function link(scope, element) {
+            $log.debug('link called');
             scope.title = 'Shopping List';
         }
         return directive;

@@ -14,6 +14,9 @@ module.exports = function() {
 		js: [
 			client + '**/*.js'
 		],
+		css: [
+			client + '**/*.css'
+		],
 		ts: [
 			'typings/**/*.d.ts',
 			client + '**/*.module.ts',

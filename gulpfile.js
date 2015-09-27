@@ -38,6 +38,7 @@ gulp.task('inject', function () {
 		.src(config.index)
 		.pipe(wiredep(options))
 		.pipe($.inject(gulp.src(config.js), { relative: true }))
+		.pipe($.inject(gulp.src(config.css), { relative: true }))
 		.pipe(gulp.dest(config.client));
 });
 
@@ -51,6 +52,9 @@ gulp.task('optimize', ['inject'], function () {
 	//TODO: template cache
 		.pipe($.plumber())
 		.pipe(assets)
+		.pipe($.if('*.js', $.ngAnnotate()))
+		.pipe($.if('*.js', $.uglify()))
+		.pipe($.if('*.css', $.minifyCss()))
 		.pipe(assets.restore())
 		.pipe($.useref())
 		.pipe(gulp.dest(config.release));
