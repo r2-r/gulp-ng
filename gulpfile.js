@@ -42,7 +42,7 @@ gulp.task('inject', ['compile', 'cache-templates', 'sass'], function () {
 		.pipe(gulp.dest(config.client));
 });
 
-gulp.task('cache-templates', ['clean'], function () {
+gulp.task('cache-templates', ['clean-scripts'], function () {
 	log('Creating template cache...');
 
 	return gulp
@@ -53,7 +53,7 @@ gulp.task('cache-templates', ['clean'], function () {
 		.pipe(gulp.dest(config.scripts))
 });
 
-gulp.task('optimize', ['clean', 'inject'], function () {
+gulp.task('optimize', ['inject'], function () {
 	log('Optimzing files...');
 
 	var assets = $.useref.assets({ searchPath: config.client });
@@ -73,7 +73,7 @@ gulp.task('optimize', ['clean', 'inject'], function () {
 
 gulp.task('build', ['clean', 'optimize']);
 
-gulp.task('compile', ['clean'], function () {
+gulp.task('compile', ['clean-scripts'], function () {
 	log('Compiling typescript files...');
 
 	var tsResult = gulp
@@ -89,7 +89,7 @@ gulp.task('compile', ['clean'], function () {
 	return tsResult.js.pipe(gulp.dest(config.client))
 });
 
-gulp.task('sass', ['clean'], function () {
+gulp.task('sass', ['clean-css'], function () {
 	return gulp
 		.src(config.scss)
 		.pipe($.plumber())
