@@ -9,7 +9,7 @@ var $ = loadPlugins();
 
 gulp.task('serve', ['build'], function () {
 	log('Starting live server... [release]');
-	
+
 	var server = $.liveServer.static(config.release, config.serverPort);
 	server.start();
 });
@@ -54,6 +54,7 @@ gulp.task('optimize', ['inject'], function () {
 		.pipe(assets)
 		.pipe($.if('*.js', $.ngAnnotate()))
 		.pipe($.if('*.js', $.uglify()))
+		.pipe($.if('*.css', $.autoprefixer({ browsers: ['> 5%'], cascade: false })))
 		.pipe($.if('*.css', $.minifyCss()))
 		.pipe(assets.restore())
 		.pipe($.useref())
@@ -64,8 +65,8 @@ gulp.task('build', ['clean', 'compile', 'optimize'], function () {
 	log('Building release...');
 
 	return gulp
-	 	.src(config.templates)
-	 	.pipe(gulp.dest(config.release));
+		.src(config.templates)
+		.pipe(gulp.dest(config.release));
 });
 
 gulp.task('compile', ['inject'], function () {

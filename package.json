@@ -24,6 +24,7 @@
     "bower": "^1.5.3",
     "del": "^2.0.2",
     "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^3.0.2",
     "gulp-if": "^1.2.5",
     "gulp-inject": "^3.0.0",
     "gulp-live-server": "0.0.28",
