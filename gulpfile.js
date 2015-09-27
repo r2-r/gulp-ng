@@ -28,7 +28,7 @@ gulp.task('serve-dev', ['compile'], function () {
 	gulp.watch(config.ts, ['compile']);
 });
 
-gulp.task('inject', function () {
+gulp.task('inject', ['compile', 'cache-templates'], function () {
 	log('Injecting dependencies...');
 
 	var wiredep = require('wiredep').stream;
@@ -42,7 +42,7 @@ gulp.task('inject', function () {
 		.pipe(gulp.dest(config.client));
 });
 
-gulp.task('cache-templates', function () {
+gulp.task('cache-templates', ['clean'], function () {
 	log('Creating template cache...');
 
 	return gulp
@@ -52,7 +52,7 @@ gulp.task('cache-templates', function () {
 		.pipe(gulp.dest(config.scripts))
 });
 
-gulp.task('optimize', ['compile', 'inject', 'cache-templates'], function () {
+gulp.task('optimize', ['clean', 'inject'], function () {
 	log('Optimzing files...');
 
 	var assets = $.useref.assets({ searchPath: config.client });
@@ -72,7 +72,7 @@ gulp.task('optimize', ['compile', 'inject', 'cache-templates'], function () {
 
 gulp.task('build', ['clean', 'optimize']);
 
-gulp.task('compile', function () {
+gulp.task('compile', ['clean'], function () {
 	log('Compiling typescript files...');
 
 	var tsResult = gulp
@@ -89,7 +89,7 @@ gulp.task('compile', function () {
 
 gulp.task('clean', function (done) {
 	clean(config.release + '**/*', done);
-	clean(config.scripts, + '*.js');
+	clean(config.scripts, + '*.js', done);
 });
 
 function clean(path, done) {
