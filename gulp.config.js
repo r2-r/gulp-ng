@@ -5,6 +5,7 @@ module.exports = function() {
 		root: './',
 		client: client,
 		release: 'release/',
+		scripts: client + 'scripts/',
 		serverPort: 8080,
 		files: [
 			client + '**/*.css',
@@ -29,6 +30,13 @@ module.exports = function() {
 			json: require('./bower.json'),
 			directory: './bower_components/',
 			ignorePath: '../..'
+		},
+		templateCache: {
+			file: 'templates.js',
+			options: {
+				module: 'app',
+				standAlone: false
+			}
 		}
 	};
 	

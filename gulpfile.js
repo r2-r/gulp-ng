@@ -42,14 +42,23 @@ gulp.task('inject', function () {
 		.pipe(gulp.dest(config.client));
 });
 
-gulp.task('optimize', ['inject'], function () {
+gulp.task('cache-templates', function () {
+	log('Creating template cache...');
+
+	return gulp
+		.src(config.templates)
+		.pipe($.minifyHtml({ empty: true }))
+		.pipe($.angularTemplatecache(config.templateCache.file, config.templateCache.options))
+		.pipe(gulp.dest(config.scripts))
+});
+
+gulp.task('optimize', ['compile', 'inject', 'cache-templates'], function () {
 	log('Optimzing files...');
 
 	var assets = $.useref.assets({ searchPath: config.client });
 
 	return gulp
 		.src(config.index)
-	//TODO: template cache
 		.pipe($.plumber())
 		.pipe(assets)
 		.pipe($.if('*.js', $.ngAnnotate()))
@@ -61,15 +70,9 @@ gulp.task('optimize', ['inject'], function () {
 		.pipe(gulp.dest(config.release));
 });
 
-gulp.task('build', ['clean', 'compile', 'optimize'], function () {
-	log('Building release...');
+gulp.task('build', ['clean', 'optimize']);
 
-	return gulp
-		.src(config.templates)
-		.pipe(gulp.dest(config.release));
-});
-
-gulp.task('compile', ['inject'], function () {
+gulp.task('compile', function () {
 	log('Compiling typescript files...');
 
 	var tsResult = gulp
@@ -85,9 +88,8 @@ gulp.task('compile', ['inject'], function () {
 });
 
 gulp.task('clean', function (done) {
-	log('Cleaning release files...');
-
 	clean(config.release + '**/*', done);
+	clean(config.scripts, + '*.js');
 });
 
 function clean(path, done) {
