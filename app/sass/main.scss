@@ -1,0 +1,18 @@
+$font-stack:    Helvetica, sans-serif;
+$primary-color: #333;
+$inactive-color: gray;
+$active-color: green;
+
+body {
+  font: 100% $font-stack;
+  color: $primary-color;
+}
+
+.title {
+	background-color: $inactive-color;
+}
+
+.title:hover {
+	background-color: $active-color;
+	transition: all 2s;	
+}

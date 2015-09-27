@@ -1,8 +1,0 @@
-.title {
-	background-color: gray;
-}
-
-.title:hover {
-	background-color: green;
-	transition: all 2s;	
-}

@@ -1,5 +1,4 @@
 var gulp = require('gulp');
-var del = require('del');
 
 var loadPlugins = require('gulp-load-plugins');
 
@@ -28,7 +27,7 @@ gulp.task('serve-dev', ['compile'], function () {
 	gulp.watch(config.ts, ['compile']);
 });
 
-gulp.task('inject', ['compile', 'cache-templates'], function () {
+gulp.task('inject', ['compile', 'cache-templates', 'sass'], function () {
 	log('Injecting dependencies...');
 
 	var wiredep = require('wiredep').stream;
@@ -36,6 +35,7 @@ gulp.task('inject', ['compile', 'cache-templates'], function () {
 
 	return gulp
 		.src(config.index)
+		.pipe($.plumber())
 		.pipe(wiredep(options))
 		.pipe($.inject(gulp.src(config.js), { relative: true }))
 		.pipe($.inject(gulp.src(config.css), { relative: true }))
@@ -47,6 +47,7 @@ gulp.task('cache-templates', ['clean'], function () {
 
 	return gulp
 		.src(config.templates)
+		.pipe($.plumber())
 		.pipe($.minifyHtml({ empty: true }))
 		.pipe($.angularTemplatecache(config.templateCache.file, config.templateCache.options))
 		.pipe(gulp.dest(config.scripts))
@@ -77,6 +78,7 @@ gulp.task('compile', ['clean'], function () {
 
 	var tsResult = gulp
 		.src(config.ts)
+		.pipe($.plumber())
 		.pipe($.typescript({
 			target: "ES5",
 			module: "amd",
@@ -87,18 +89,33 @@ gulp.task('compile', ['clean'], function () {
 	return tsResult.js.pipe(gulp.dest(config.client))
 });
 
-gulp.task('clean', function (done) {
-	clean(config.release + '**/*', done);
-	clean(config.scripts, + '*.js', done);
+gulp.task('sass', ['clean'], function () {
+	return gulp
+		.src(config.scss)
+		.pipe($.plumber())
+		.pipe($.sass().on('error', $.sass.logError))
+		.pipe(gulp.dest(config.styles));
 });
 
-function clean(path, done) {
-	log('Cleaning: ' + path);
+gulp.task('clean', ['clean-release', 'clean-scripts', 'clean-css']);
 
-	del(path).then(function () {
-		done();
-	});
-};
+gulp.task('clean-release', function (done) {
+	return gulp
+		.src(config.release + '**/*', { read: false })
+		.pipe($.rm());
+});
+
+gulp.task('clean-scripts', function (done) {
+	return gulp
+		.src(config.scripts + '*.js', { read: false })
+		.pipe($.rm());
+});
+
+gulp.task('clean-css', function (done) {
+	return gulp
+		.src(config.css, { read: false })
+		.pipe($.rm());
+});
 
 function log(msg) {
 	if (typeof (msg) === 'object') {

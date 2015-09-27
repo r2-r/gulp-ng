@@ -6,6 +6,7 @@ module.exports = function() {
 		client: client,
 		release: 'release/',
 		scripts: client + 'scripts/',
+		styles: client + 'styles/',
 		serverPort: 8080,
 		files: [
 			client + '**/*.css',
@@ -17,6 +18,9 @@ module.exports = function() {
 		],
 		css: [
 			client + '**/*.css'
+		],
+		scss: [
+			client + '**/*.scss'
 		],
 		ts: [
 			'typings/**/*.d.ts',
