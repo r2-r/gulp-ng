@@ -2,6 +2,7 @@ module.exports = function() {
 	var client = 'app/';
 	
 	var config = {
+		root: './',
 		client: client,
 		release: 'release/',
 		serverPort: 8080,
@@ -11,13 +12,16 @@ module.exports = function() {
 			client + '**/*.js'],
 		index: client + 'index.html',
 		js: [
-			client + '**/*.module.js',
 			client + '**/*.js'
 		],
 		ts: [
 			'typings/**/*.d.ts',
 			client + '**/*.module.ts',
 		],
+		templates: [
+			client + '**/*.tpl.html'
+		],
+		compiledTs: 'scripts/main.js',
 		bower: {
 			json: require('./bower.json'),
 			directory: './bower_components/',
